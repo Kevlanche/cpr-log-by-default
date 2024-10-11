@@ -17,6 +17,7 @@ import org.json.JSONObject;
 
 import codeprober.RunAllTests.MergedResult;
 import codeprober.metaprogramming.StdIoInterceptor;
+import codeprober.metaprogramming.StreamInterceptor.OtherThreadDataHandling;
 import codeprober.protocol.ClientRequest;
 import codeprober.protocol.data.RequestAdapter;
 import codeprober.protocol.data.TopRequestReq;
@@ -123,7 +124,8 @@ public class CodeProber {
 		case WORKER: {
 			StdIoInterceptor.tag = "Worker";
 			final PrintStream realOut = System.out;
-			StdIoInterceptor io = new StdIoInterceptor() {
+
+			final StdIoInterceptor io = new StdIoInterceptor(false, OtherThreadDataHandling.MERGE) {
 
 				@Override
 				public void onLine(boolean stdout, String line) {
@@ -132,7 +134,6 @@ public class CodeProber {
 			};
 			io.install();
 			final Consumer<JSONObject> writeToCoordinator = msgObj -> {
-//				System.out.println("WriteToCoordinator " + msgObj);
 				final byte[] data = msgObj.toString().getBytes(StandardCharsets.UTF_8);
 				synchronized (realOut) {
 					realOut.println();
@@ -155,15 +156,8 @@ public class CodeProber {
 			new Thread(() -> {
 				final AtomicBoolean connectionIsAlive = new AtomicBoolean(true);
 				new IpcReader(System.in) {
-//					protected void handleByte(byte b) {
-//						super.handleByte(b);
-//						flog("worker got byte: " + b);
-//
-//					}
-					// TODO funnel messages to handler
 
 					protected void onMessage(String msg) {
-//						flog("worker input: " + msg);
 						JSONObject obj;
 						try {
 							obj = new JSONObject(msg);
@@ -238,7 +232,12 @@ public class CodeProber {
 			if (lastMonitor.get() != null) {
 				lastMonitor.getAndSet(null).stopThread();
 			}
-			final FileMonitor fm = new FileMonitor(new File(jarPath)) {
+			final File jarFile = new File(jarPath);
+			if (!jarFile.exists()) {
+				System.err.println("⚠ Invalid jar path '" + jarPath
+						+ "'. No such file exists. Please restart with a new path, or create the file before trying to create a probe.");
+			}
+			final FileMonitor fm = new FileMonitor(jarFile) {
 				public void onChange() {
 					System.out.println("Jar changed!");
 					if (sessionLogger != null) {
