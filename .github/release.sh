@@ -20,7 +20,7 @@ echo "ore: $OWNER_REPO"
 echo "ctx: $GITHUB_CONTEXT"
 echo "asu: $ASSETS_URL"
 
-UPLOAD_URL="${$ASSETS_URL/api.github.com/uploads.github.com}"
+UPLOAD_URL="${ASSETS_URL/api.github.com/uploads.github.com}"
 echo "upl: $UPLOAD_URL"
 
 # sha: cce18976f438d961f559e7f022ad7c2db5b0893f
