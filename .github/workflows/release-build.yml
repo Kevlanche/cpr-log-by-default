@@ -17,9 +17,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - run: sh .github/release.sh
+    - run: bash .github/release.sh
       env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER_REPO: ${{ github.repository }}
+          ASSETS_URL: ${{ github.event.release.assets_url }}
           GITHUB_CONTEXT: ${{ toJson(github) }}
 
