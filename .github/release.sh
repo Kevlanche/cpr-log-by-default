@@ -2,9 +2,7 @@
 
 set -e
 
-CPR_VERSION="${GITHUB_REF/refs\/tags\//}" \
-CPR_JAR="code-prober.jar" \
-  bash build-and-test.sh
+CPR_VERSION="${GITHUB_REF/refs\/tags\//}" CPR_JAR="code-prober.jar" bash build-and-test.sh
 
 UPLOAD_URL="${ASSETS_URL/api.github.com/uploads.github.com}"
 

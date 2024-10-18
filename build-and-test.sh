@@ -38,11 +38,11 @@ check_expected_outcome () {
   fi
 }
 
-if [ -z "CPR_JAR" ]; then
+if [ -z "$CPR_JAR" ]; then
   CPR_JAR="code-prober-dev.jar"
 fi
 
-echo "Running AddNum test suite three times with different configurations.."
+echo "Running AddNum test suite three times with different configurations, using jar file: $CPR_JAR"
 
 # Normal, synchronous test run
 java -Dcpr.testDir=addnum/tests -jar $CPR_JAR --test addnum/AddNum.jar 2>/dev/null > test_log
