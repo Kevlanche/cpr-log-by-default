@@ -9,11 +9,12 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [22.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    # permissions:
+    #   contents: write
+    # strategy:
+    #   matrix:
+    #     node-version: [22.x]
+    #     # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
     - uses: actions/checkout@v3
@@ -22,5 +23,5 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OWNER_REPO: ${{ github.repository }}
           ASSETS_URL: ${{ github.event.release.assets_url }}
-          GITHUB_CONTEXT: ${{ toJson(github) }}
+          # GITHUB_CONTEXT: ${{ toJson(github) }}
 

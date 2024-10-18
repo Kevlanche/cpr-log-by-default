@@ -1150,12 +1150,10 @@ define("model/adjustLocator", ["require", "exports", "model/adjustTypeAtLoc"], f
 define("model/repositoryUrl", ["require", "exports"], function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
-    exports.rawUrl = exports.repositoryUrl = void 0;
+    exports.repositoryUrl = void 0;
     // This file should be kept in sync with server/src/codeprober/server/WebServer.java
-    const repositoryUrl = `https://github.com/lu-cs-sde/codeprober`;
+    const repositoryUrl = `https://github.com/Kevlanche/cpr-log-by-default`;
     exports.repositoryUrl = repositoryUrl;
-    const rawUrl = (resource) => `https://raw.githubusercontent.com/lu-cs-sde/codeprober/master/${resource}`;
-    exports.rawUrl = rawUrl;
 });
 define("ui/popup/displayHelp", ["require", "exports", "model/repositoryUrl", "ui/create/createModalTitle", "ui/create/createTextSpanIndicator", "ui/create/showWindow"], function (require, exports, repositoryUrl_1, createModalTitle_1, createTextSpanIndicator_1, showWindow_2) {
     "use strict";
@@ -13210,7 +13208,7 @@ define("ui/showVersionInfo", ["require", "exports", "model/repositoryUrl"], func
                 return 'again';
             }
             const a = document.createElement('a');
-            a.href = `${repositoryUrl_2.repositoryUrl}/blob/master/code-prober.jar`;
+            a.href = `${repositoryUrl_2.repositoryUrl}/releases/latest/`;
             a.target = '_blank';
             a.text = 'New version available';
             elem.appendChild(document.createElement('br'));

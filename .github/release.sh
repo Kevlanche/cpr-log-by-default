@@ -2,29 +2,18 @@
 
 set -e
 
-bash build.sh
+CPR_VERSION="${GITHUB_REF/refs\/tags\//}" bash build.sh
 
-# URL="https://api.github.com/repos/Kevlanche/cpr-log-by-default/releases/180613852/assets"
-# echo $URL
-# NEEDLE="api\.github\.com"
-# REPL="uploads\.github\.com"
-# PATCHED="${URL/"$NEEDLE"/"$REPL"}"
-# echo $PATCHED
+# echo "Env variables for debugging:"
+# echo "sha: $GITHUB_SHA"
+# echo "ref: $GITHUB_REF"
+# echo "ore: $OWNER_REPO"
+# echo "ctx: $GITHUB_CONTEXT"
+# echo "asu: $ASSETS_URL"
 
-# URL="https://api.github.com/repos/Kevlanche/cpr-log-by-default/releases/180613852/assets"
-
-echo "Finished building, dumping some env variables for debugging purposes:"
-echo "sha: $GITHUB_SHA"
-echo "ref: $GITHUB_REF"
-echo "ore: $OWNER_REPO"
-echo "ctx: $GITHUB_CONTEXT"
-echo "asu: $ASSETS_URL"
 
 UPLOAD_URL="${ASSETS_URL/api.github.com/uploads.github.com}"
-echo "upl: $UPLOAD_URL"
-
-# sha: cce18976f438d961f559e7f022ad7c2db5b0893f
-# ref: refs/tags/0.0.2
+# echo "upl: $UPLOAD_URL"
 
 if [ ! -f code-prober.jar ]; then
   echo "Missing code-prober.jar. Did the build silently fail?"
