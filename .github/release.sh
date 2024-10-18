@@ -2,25 +2,24 @@
 
 set -e
 
-CPR_VERSION="${GITHUB_REF/refs\/tags\//}" bash build.sh
+CPR_VERSION="${GITHUB_REF/refs\/tags\//}" \
+CPR_JAR="code-prober.jar" \
+  bash build-and-test.sh
 
-# echo "Env variables for debugging:"
+UPLOAD_URL="${ASSETS_URL/api.github.com/uploads.github.com}"
+
+# echo "Some variables for debugging, uncomment in case of issues:"
 # echo "sha: $GITHUB_SHA"
 # echo "ref: $GITHUB_REF"
 # echo "ore: $OWNER_REPO"
 # echo "ctx: $GITHUB_CONTEXT"
 # echo "asu: $ASSETS_URL"
-
-
-UPLOAD_URL="${ASSETS_URL/api.github.com/uploads.github.com}"
 # echo "upl: $UPLOAD_URL"
 
 if [ ! -f code-prober.jar ]; then
   echo "Missing code-prober.jar. Did the build silently fail?"
   exit 1
 fi
-
-# https://api.github.com/repos/Kevlanche/cpr-log-by-default/releases/180613852/assets
 
 curl -L \
   -X POST \
